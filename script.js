@@ -11,74 +11,76 @@ let stopBtnFlag = true;
 
 
 //Defining Numbers to change
-let elapsedHours=0;
-let elapsedMinutes=0;
-let elapsedSeconnds=0;
-let elapsedMilliSeconds=0;
+let elapsedHours = 0;
+let elapsedMinutes = 0;
+let elapsedSeconnds = 0;
+let elapsedMilliSeconds = 0;
 
 //Defining Intervals
 let milliSecondsInterval, secondsInterval;
 
 stopBtn.disabled = true;
-stopBtn.style.opacity ="0.5";
+stopBtn.style.opacity = "0.5";
 
-const start =()=>{
+const start = () => {
     clearInterval(milliSecondsInterval);
     clearInterval(secondsInterval);
 
     stopBtn.disabled = false;
-    stopBtn.style.opacity ="1";
+    stopBtn.style.opacity = "1";
     startBtn.disabled = true;
-    startBtn.style.opacity ="0.5";
-    
+    startBtn.style.opacity = "0.5";
+
 
 
     secondsInterval = setInterval(() => {
-        if(elapsedSeconnds>58){
-            elapsedSeconnds =0;
-            if(elapsedMinutes>58){
+        if (elapsedSeconnds > 58) {
+            elapsedSeconnds = 0;
+            if (elapsedMinutes > 58) {
                 elapsedMinutes = 0;
-                elapsedHours+=1;
-                hours.innerHTML = String(elapsedHours).padStart(2,0);
+                elapsedHours += 1;
+                hours.innerHTML = String(elapsedHours).padStart(2, 0);
             }
-            else{
-                elapsedMinutes+=1;
+            else {
+                elapsedMinutes += 1;
             }
-            minutes.innerHTML = String(elapsedMinutes).padStart(2,0);
+            minutes.innerHTML = String(elapsedMinutes).padStart(2, 0);
         }
-        else{
-            elapsedSeconnds +=1;
+        else {
+            elapsedSeconnds += 1;
         }
-        seconds.innerHTML= String(elapsedSeconnds).padStart(2,0);
+        seconds.innerHTML = String(elapsedSeconnds).padStart(2, 0);
     }, 1000);
 
-    milliSecondsInterval =setInterval(() => {
-        if(elapsedMilliSeconds>58){
-            elapsedMilliSeconds =0;
+    milliSecondsInterval = setInterval(() => {
+        if (elapsedMilliSeconds > 58) {
+            elapsedMilliSeconds = 0;
         }
-        elapsedMilliSeconds+=1;
-        milliSeconds.innerHTML = String(elapsedMilliSeconds).padStart(2,0);
+        elapsedMilliSeconds += 1;
+        milliSeconds.innerHTML = String(elapsedMilliSeconds).padStart(2, 0);
     }, 1);
 }
 
-startBtn.addEventListener("click",start)
-
-stopBtn.addEventListener("click",()=>{
-    if(stopBtnFlag){
+const stop = () => {
+    if (stopBtnFlag) {
         clearInterval(secondsInterval);
         clearInterval(milliSecondsInterval);
 
         stopBtn.innerText = "Resume";
         stopBtnFlag = false;
     }
-    else{
+    else {
         stopBtn.innerText = "Stop";
         stopBtnFlag = true;
         start();
     }
-})
+}
 
-resetBtn.addEventListener("click",()=>{
+startBtn.addEventListener("click", start)
+
+stopBtn.addEventListener("click", stop)
+
+resetBtn.addEventListener("click", () => {
     clearInterval(secondsInterval);
     clearInterval(milliSecondsInterval);
 
@@ -87,8 +89,19 @@ resetBtn.addEventListener("click",()=>{
     seconds.innerHTML = "00";
     milliSeconds.innerHTML = "00";
 
+    elapsedHours = 0;
+    elapsedMinutes = 0;
+    elapsedSeconnds = 0;
+    elapsedMilliSeconds = 0;
+
+    //for stop btn
+    clearInterval(secondsInterval);
+    clearInterval(milliSecondsInterval);
+
+    stopBtn.innerHTML = "Stop";
+    stopBtnFlag= true;
     stopBtn.disabled = true;
-    stopBtn.style.opacity ="0.5";
+    stopBtn.style.opacity = "0.5";
     startBtn.disabled = false;
-    startBtn.style.opacity ="1";
+    startBtn.style.opacity = "1";
 })
